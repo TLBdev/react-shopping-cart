@@ -10,8 +10,15 @@ import ShoppingCart from './components/ShoppingCart';
 
 function App() {
 	const [products] = useState(data);
-	const [cart, setCart] = useState([]);
+	let initData = []
 
+	if (window.localStorage.getItem('oldCart')) {
+		initData = JSON.parse(window.localStorage.getItem('oldCart'))
+	}
+	const [cart, setCart] = useState(initData);
+	React.useEffect(() => {
+		window.localStorage.setItem('oldCart', JSON.stringify([...cart]))
+	}, [cart])
 	const addItem = item => {
 		// add the given item to the cart
 		setCart([...cart, item])
